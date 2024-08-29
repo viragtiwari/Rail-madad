@@ -24,6 +24,11 @@ const App = () => {
         text: inputText,
         files: selectedFiles,
       };
+      
+      setCurrentChat((prevChat) => [
+        ...prevChat,
+        newEntry
+      ]);
 
       try {
         const response = await fetch('http://127.0.0.1:5000/api/chat', {
@@ -32,10 +37,8 @@ const App = () => {
           body: JSON.stringify({ message: inputText }),
         });
         const data = await response.json();
-        console.log(data.response);
         setCurrentChat((prevChat) => [
           ...prevChat,
-          newEntry,
           {
             type: "received",
             text: data.response,
