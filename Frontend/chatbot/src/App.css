@@ -1,0 +1,150 @@
+body{
+  overflow: hidden;
+  margin: 0;
+}
+
+.app-container {
+  display: flex;
+  flex-direction: row;
+  height: 100vh;
+  font-family: Arial, sans-serif;
+  background-color: #333;
+  color: #fff;
+}
+
+.chat-history {
+  width: 25%;
+  border-right: 1px solid #444;
+  padding: 10px;
+  background-color: #1a1a1a;
+  overflow-y: auto;
+  display: flex;
+  flex-direction: column;
+}
+
+.chat-history h2 {
+  margin-bottom: 20px;
+  color: #ccc;
+}
+
+.chat-session {
+  padding: 10px;
+  margin-bottom: 10px;
+  border: 1px solid #555;
+  border-radius: 5px;
+  background-color: #2a2a2a;
+  cursor: pointer;
+  color: #ddd;
+}
+
+.chat-session:hover {
+  background-color: #3a3a3a;
+}
+
+.chat-container {
+  display: flex;
+  flex-direction: column;
+  flex-grow: 1;
+}
+
+.chat-display {
+  flex-grow: 1;
+  padding: 20px;
+  background-color: #2a2a2a;
+  overflow-y: auto;
+  display: flex;
+  flex-direction: column;
+}
+
+.chat-entry {
+  margin-bottom: 15px;
+  max-width: 60%;
+  padding: 10px;
+  border-radius: 10px;
+  display: flex;
+  flex-direction: column;
+}
+
+.chat-entry p {
+  margin: 0;
+  word-wrap: break-word;
+  color: #fff;
+}
+
+.sent {
+  align-self: flex-end;
+  background-color: #4caf50;
+  text-align: right;
+}
+
+.received {
+  align-self: flex-start;
+  background-color: #3a3a3a;
+  text-align: left;
+  border: 1px solid #555;
+}
+
+.file-preview {
+  margin-top: 10px;
+}
+
+.file-preview img,
+.file-preview video,
+.file-preview audio {
+  max-width: 100%;
+  border-radius: 5px;
+}
+
+.chat-input-section {
+  padding: 20px;
+  border-top: 1px solid #444;
+  background-color: #1a1a1a;
+  display: flex;
+  flex-direction: column;
+}
+
+.chat-input-section textarea {
+  width: 95%;
+  height: 80px;
+  margin-bottom: 10px;
+  padding: 10px;
+  border: 1px solid #444;
+  border-radius: 5px;
+  resize: none;
+  background-color: #333;
+  color: #fff;
+}
+
+.chat-input-section input[type="file"] {
+  margin-bottom: 10px;
+  color: #ddd;
+}
+
+.chat-input-section button {
+  padding: 10px 20px;
+  border: none;
+  border-radius: 5px;
+  background-color: #007bff;
+  color: #fff;
+  cursor: pointer;
+  margin-bottom: 10px;
+}
+
+.chat-input-section button:hover {
+  background-color: #0056b3;
+}
+
+.chat-controls {
+  display: flex;
+  justify-content: space-between;
+}
+
+.chat-controls button {
+  margin-right: 10px;
+  background-color: #444;
+  color: #fff;
+}
+
+.chat-controls button:hover {
+  background-color: #555;
+}
