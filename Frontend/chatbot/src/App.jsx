@@ -1,8 +1,8 @@
-import React, { useState, useEffect } from "react";
+import React, { useState } from "react";
 import "./App.css";
 
 const App = () => {
-  const [data, setData] = useState(null);
+  // const [data, setData] = useState(null);
   const [chatHistory, setChatHistory] = useState([]);
   const [currentChat, setCurrentChat] = useState([]);
   const [inputText, setInputText] = useState("");
@@ -17,7 +17,7 @@ const App = () => {
     setSelectedFiles(e.target.files);
   };
 
-  const handleSend = () => {
+  const handleSend = async () => {
     if (inputText || selectedFiles) {
       const newEntry = {
         type: "sent",
@@ -25,14 +25,25 @@ const App = () => {
         files: selectedFiles,
       };
 
-      setCurrentChat((prevChat) => [
-        ...prevChat,
-        newEntry,
-        {
-          type: "received",
-          text: "This is a dummy response ",
-        },
-      ]);
+      try {
+        const response = await fetch('http://127.0.0.1:5000/api/chat', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({ message: inputText }),
+        });
+        const data = await response.json();
+        console.log(data.response);
+        setCurrentChat((prevChat) => [
+          ...prevChat,
+          newEntry,
+          {
+            type: "received",
+            text: data.response,
+          },
+        ]);
+      } catch (error) {
+        console.error('Error sending message:', error);
+      }
 
       setInputText("");
       setSelectedFiles(null);
@@ -66,16 +77,6 @@ const App = () => {
       setCurrentChat(selectedSession.messages);
     }
   };
-
-  useEffect(() => {
-    fetch('http://127.0.0.1:5000/api/data')  
-      .then(response => response.json())
-      .then(data => {
-        console.log('Fetched data:', data);
-        setData(data);
-      })
-      .catch(error => console.error('Error fetching data:', error));
-  }, []);
 
   return (
     <div className="app-container">
