@@ -2,7 +2,7 @@ import os
 from dotenv import load_dotenv
 import google.generativeai as genai
 
-from model.prompts import CHAT_PROMPT
+from model.prompts import CHAT_PROMPT, ROUTE_PROMPT
 
 # Load the .env file
 load_dotenv()
@@ -18,9 +18,14 @@ generation_config = {
     "response_mime_type": "text/plain",
 }
 
-model = genai.GenerativeModel(
+chat_model = genai.GenerativeModel(
     model_name="gemini-1.5-flash",
     generation_config=generation_config,
     system_instruction=CHAT_PROMPT,
 )
 
+routing_model = genai.GenerativeModel(
+    model_name="gemini-1.5-flash",
+    generation_config=generation_config,
+    system_instruction=ROUTE_PROMPT,
+)

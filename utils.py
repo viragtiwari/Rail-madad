@@ -1,4 +1,5 @@
 import re
+from datetime import datetime
 
 def extract_pnr(response):
     # Regular expression for PNR
@@ -17,4 +18,26 @@ def extract_sentiment(response):
     sentiment_pattern = r"Sentiment\s*:\s*(.+)"
     sentiment_match = re.search(sentiment_pattern, response)
     return sentiment_match.group(1).strip() if sentiment_match else None
+
+
+def parse_summary(summary):
+    pnr = extract_pnr(summary)
+    problem = extract_problem(summary)
+    sentiment = extract_sentiment(summary)
+    
+    return pnr, problem, sentiment
+    
+
+# UCID = Unique Complaint ID
+def generate_ucid(pnr_number):
+    # Get current date and time
+    now = datetime.now()
+    
+    # Format the date and time components
+    date_str = now.strftime("%d%m%H%M")
+    
+    # Construct the special string
+    special_string = f"RMai{date_str}{pnr_number}"
+    
+    return special_string
 

@@ -1,9 +1,8 @@
-from complaint_number import generate_special_string
-from complaint_parser import extract_pnr, extract_problem, extract_sentiment
-from smart_routing import complaint_route
-from model.model import model
+import utils
+from smart_routing import get_route
+from model.model import chat_model
 
-chat_session = model.start_chat(history=[])
+chat_session = chat_model.start_chat(history=[])
 
 
 def complaint_registration(query):
@@ -18,13 +17,13 @@ while True:
     print(response)
     if response.strip() == "Your complaint has been registered successfully.":
         response = complaint_registration("Summary")
-        pnr = extract_pnr(response)
-        problem = extract_problem(response)
-        sentiment = extract_sentiment(response)
+        pnr = utils.extract_pnr(response)
+        problem = utils.extract_problem(response)
+        sentiment = utils.extract_sentiment(response)
         # workflow
-        complaint_number = generate_special_string(pnr)
+        complaint_number = utils.generate_ucid(pnr)
         print(complaint_number)  # testing
-        route = complaint_route(pnr, problem, sentiment)
+        route = get_route(pnr, problem, sentiment)
         print(route)
         while True:
             query1 = input("Message:  ")
