@@ -1,7 +1,8 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import "./App.css";
 
 const App = () => {
+  const [data, setData] = useState(null);
   const [chatHistory, setChatHistory] = useState([]);
   const [currentChat, setCurrentChat] = useState([]);
   const [inputText, setInputText] = useState("");
@@ -65,6 +66,16 @@ const App = () => {
       setCurrentChat(selectedSession.messages);
     }
   };
+
+  useEffect(() => {
+    fetch('http://127.0.0.1:5000/api/data')  
+      .then(response => response.json())
+      .then(data => {
+        console.log('Fetched data:', data);
+        setData(data);
+      })
+      .catch(error => console.error('Error fetching data:', error));
+  }, []);
 
   return (
     <div className="app-container">
