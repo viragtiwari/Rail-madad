@@ -16,9 +16,9 @@ def send(query):
         # TODO: log summary to database
         print(summary)
         
-        route = get_route(summary)
+        route,ucid= get_route(summary)
         # TODO: log route to database
-        print(route)
+        print(route,ucid)
     
     return response
     
