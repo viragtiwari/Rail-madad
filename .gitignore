@@ -6,3 +6,6 @@ __pycache__/
 
 # Ignore .pyc files
 *.pyc
+
+# Ignore local environment
+gemini_env/

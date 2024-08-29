@@ -1,6 +1,7 @@
 import os
 from dotenv import load_dotenv
 import google.generativeai as genai
+
 # Load the .env file
 load_dotenv()
 
@@ -8,17 +9,17 @@ load_dotenv()
 genai.configure(api_key=os.getenv("GEMINI_API_KEY"))
 # Create the model
 generation_config = {
-  "temperature": 0.6,
-  "top_p": 0.95,
-  "top_k": 64,
-  "max_output_tokens": 8192,
-  "response_mime_type": "text/plain",
+    "temperature": 0.6,
+    "top_p": 0.95,
+    "top_k": 64,
+    "max_output_tokens": 8192,
+    "response_mime_type": "text/plain",
 }
 
 model = genai.GenerativeModel(
-  model_name="gemini-1.5-flash",
-  generation_config=generation_config,
-  system_instruction="""
+    model_name="gemini-1.5-flash",
+    generation_config=generation_config,
+    system_instruction="""
 # Rail Madad AI Smart Routing System Prompt
 You are an AI assistant for the RailMadad platform of Indian Railways, tasked with routing customer complaints to the appropriate department. You will be provided with three pieces of information for each complaint:
 
@@ -48,17 +49,15 @@ Department: [Name of the department]
 Reason: [Brief explanation for choosing this department, including how you interpreted unclear information if applicable]
 
 Remember, accuracy in routing is crucial for efficient complaint resolution. Use your best judgment to interpret the given information and make a routing decision, even when the problem description is not entirely clear.
-""")
-
-
-chat_session = model.start_chat(
-  history=[
-  ]
+""",
 )
 
-def complaint_route(pnr,problem,sentiment):
-    response = chat_session.send_message(f"Pnr: {pnr} :: Problem: {problem} :: Sentiment of the user: {sentiment}  ")
+
+chat_session = model.start_chat(history=[])
+
+
+def complaint_route(pnr, problem, sentiment):
+    response = chat_session.send_message(
+        f"Pnr: {pnr} :: Problem: {problem} :: Sentiment of the user: {sentiment}  "
+    )
     return response.text
-
-
-

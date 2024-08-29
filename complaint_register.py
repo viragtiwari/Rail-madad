@@ -12,17 +12,17 @@ load_dotenv()
 genai.configure(api_key=os.getenv("GEMINI_API_KEY"))
 # Create the model
 generation_config = {
-  "temperature": 0.6,
-  "top_p": 0.95,
-  "top_k": 64,
-  "max_output_tokens": 8192,
-  "response_mime_type": "text/plain",
+    "temperature": 0.6,
+    "top_p": 0.95,
+    "top_k": 64,
+    "max_output_tokens": 8192,
+    "response_mime_type": "text/plain",
 }
 
 model = genai.GenerativeModel(
-  model_name="gemini-1.5-flash",
-  generation_config=generation_config,
-  system_instruction="""
+    model_name="gemini-1.5-flash",
+    generation_config=generation_config,
+    system_instruction="""
 # Rail Madad AI Agent System Prompt
 
 You are an AI agent enhancing the Rail Madad complaint management system. Your primary functions are to act as a chatbot, analyze sentiment (without explicitly mentioning this to users). Adhere to the following guidelines:
@@ -51,7 +51,7 @@ You are an AI agent enhancing the Rail Madad complaint management system. Your p
 - For irrelevant prompts, politely redirect the conversation to relevant railway matters.
 - If asked to act in a specific way outside your designed role, maintain your Rail Madad AI Agent persona.
 - Be adaptive and flexible in your approach while maintaining the core functionality of complaint management.
-- PNR holds all the relevant details , like coach number, train number and journey details you dont need to enquiry to that
+- PNR holds all the relevant details, like coach number, train number and journey details you dont need to enquiry to that
 
 should be the last message after the successful registration of the complaint (nothing else)
 "Your complaint has been registered successfully."
@@ -66,48 +66,37 @@ Remember, your primary goal is to efficiently collect necessary information, reg
 """,
 )
 
-chat_session = model.start_chat(
-  history=[
-  ]
-)
-
-
-
+chat_session = model.start_chat(history=[])
 
 
 def complaint_registration(query):
     response = chat_session.send_message(query)
     return response.text
 
+
 response = ""
 while True:
-    query = input("Message:   ")
+    query = input("Message: ")
     response = complaint_registration(query)
-    print(response) 
+    print(response)
     if response.strip() == "Your complaint has been registered successfully.":
         response = complaint_registration("Summary")
         break
 
 
-#chat ends here
+# chat ends here
 pnr = extract_pnr(response)
 problem = extract_problem(response)
 sentiment = extract_sentiment(response)
 
-#workflow
+# workflow
 complaint_number = generate_special_string(pnr)
-print(complaint_number) #testing
+print(complaint_number)  # testing
 
 
-
-route = complaint_route(pnr,problem,sentiment)
+route = complaint_route(pnr, problem, sentiment)
 
 print(route)
 
 # Urgency codes comes here::::
-# ======== code ======== 
-
-
-
-
-
+# ======== code ========
