@@ -91,8 +91,8 @@ const App = () => {
   };
 
   return (
-    <div className="flex flex-col overflow-x-hidden h-screen font-sans bg-gray-800 text-white relative">
-      <div className="flex-grow p-5 bg-gray-700 overflow-y-auto">
+    <div className="flex flex-col overflow-x-hidden h-screen font-sans bg-zinc-900 text-white relative">
+      <div className="flex-grow p-5 bg-zinc-900 overflow-y-auto">
         {currentChat.length === 0 && (
           <div className="absolute inset-0 flex items-center justify-center">
             <TypeAnimation
@@ -107,11 +107,10 @@ const App = () => {
           {currentChat.map((entry, index) => (
             <div
               key={index}
-              className={`mb-4 max-w-lg p-3 rounded-2xl ${
-                entry.type === "sent"
-                  ? "self-end bg-orange-400 text-right ml-auto"
+              className={`mb-4 max-w-lg p-3 rounded-2xl ${entry.type === "sent"
+                  ? "self-end bg-orange-500 text-right ml-auto"
                   : "self-start bg-white border border-gray-700 text-left mr-auto text-black"
-              }`}
+                }`}
             >
               {entry.text && <p className="break-words">{entry.text}</p>}
               {entry.files &&
@@ -147,40 +146,42 @@ const App = () => {
         </div>
       </div>
 
-      <div className="p-5 bg-gray-700 bg-opacity-90 flex items-center relative">
+      <div className="p-5 bg-zinc-800 bg-opacity-90 flex items-center relative">
         <div className="relative w-full">
-          <textarea
-            value={inputText}
-            onChange={handleInputChange}
-            onKeyDown={handleKeyDown}
-            placeholder="Enter your message"
-            className="w-full h-16 p-5 px-9 pr-20 rounded-3xl bg-gray-900 text-white resize-none"
-          />
+          <div className="py-0.5 px-0.5 rounded-3xl bg-gradient-to-r from-pink-900 via-orange-500 to-white">
+            <textarea
+              value={inputText}
+              onChange={handleInputChange}
+              onKeyDown={handleKeyDown}
+              placeholder="Enter your message"
+              className="w-full h-16 p-5 px-9 pr-20 rounded-3xl bg-neutral-700 text-white placeholder-white resize-none focus:outline-none"
+            />
+          </div>
           <button
             onClick={toggleMenu}
-            className="absolute inset-y-0 right-16 flex items-center pr-3 text-gray-400 hover:text-white focus:outline-none"
+            className="absolute inset-y-0 right-16 flex items-center pr-3 text-neutral-400 hover:text-white focus:outline-none"
             aria-label="Attach files"
           >
             <PaperClipIcon className="w-6 h-6" />
           </button>
 
           {isMenuOpen && (
-            <div className="absolute bottom-full mb-2 right-16 bg-gray-800 rounded-lg shadow-lg z-10">
+            <div className="absolute bottom-full mb-2 right-16 bg-gray-500 rounded-lg shadow-lg z-10">
               <button
                 onClick={() => handleOptionClick("photo")}
-                className="flex items-center px-4 py-2 hover:bg-gray-700 w-full text-left"
+                className="flex items-center px-4 py-2 hover:bg-orange-500 w-full text-left"
               >
                 📷 Photo
               </button>
               <button
                 onClick={() => handleOptionClick("video")}
-                className="flex items-center px-4 py-2 hover:bg-gray-700 w-full text-left"
+                className="flex items-center px-4 py-2 hover:bg-orange-500 w-full text-left"
               >
                 🎥 Video
               </button>
               <button
                 onClick={() => handleOptionClick("audio")}
-                className="flex items-center px-4 py-2 hover:bg-gray-700 w-full text-left"
+                className="flex items-center px-4 py-2 hover:bg-orange-500 w-full text-left"
               >
                 🎙️ Audio
               </button>
@@ -214,7 +215,7 @@ const App = () => {
 
           <button
             onClick={handleSend}
-            className="absolute inset-y-0 right-0 flex items-center pr-3 text-gray-400 hover:text-white"
+            className="absolute inset-y-0 right-2 flex items-center pr-3 text-neutral-400 hover:text-white"
           >
             <ArrowRightIcon className="w-6 h-6" />
           </button>
