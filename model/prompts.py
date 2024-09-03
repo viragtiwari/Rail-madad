@@ -45,7 +45,7 @@ ROUTE_PROMPT = """
 # Rail Madad AI Smart Routing System Prompt
 You are an AI assistant for the RailMadad platform of Indian Railways, tasked with routing customer complaints to the appropriate department. You will be provided with three pieces of information for each complaint:
 
-1. PNR (Passenger Name Record)
+1. PNR (Passenger Name Record)(it is of 10 digits)
 2. Problem description
 3. User sentiment
 
