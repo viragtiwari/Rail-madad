@@ -39,16 +39,24 @@ const App = () => {
         text: inputText,
         files: selectedFiles,
       };
-
+      
       setCurrentChat((prevChat) => [...prevChat, newEntry]);
 
       try {
+        const formData = new FormData();
+        formData.append("message", inputText);
+
+        if (selectedFiles.length > 0) {
+          selectedFiles.forEach((file) => formData.append("files", file));
+        }
+        
         const response = await fetch("http://127.0.0.1:5000/api/chat", {
           method: "POST",
-          headers: { "Content-Type": "application/json" },
-          body: JSON.stringify({ message: inputText }),
+          body: formData,
         });
+
         const data = await response.json();
+
         setCurrentChat((prevChat) => [
           ...prevChat,
           {
@@ -56,6 +64,7 @@ const App = () => {
             text: data.response,
           },
         ]);
+
       } catch (error) {
         console.error("Error sending message:", error);
       }
@@ -118,8 +127,8 @@ const App = () => {
             <div
               key={index}
               className={`mb-4 max-w-lg p-3 rounded-2xl ${entry.type === "sent"
-                  ? "self-end bg-orange-500 text-right ml-auto"
-                  : "self-start bg-white border border-gray-700 text-left mr-auto text-black"
+                ? "self-end bg-orange-500 text-right ml-auto"
+                : "self-start bg-white border border-gray-700 text-left mr-auto text-black"
                 }`}
             >
               {entry.text && <p className="break-words">{entry.text}</p>}
