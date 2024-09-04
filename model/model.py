@@ -46,6 +46,8 @@ def send_image_request(image_path):
         media_type = 'image/jpeg'
     elif image_format == 'png':
         media_type = 'image/png'
+    elif image_format == 'jpg':
+        media_type = "image/jpg"
     else:
         raise ValueError(f"Unsupported image format: {image_format}")
     
