@@ -7,6 +7,7 @@ const App = () => {
   const [currentChat, setCurrentChat] = useState([]);
   const [inputText, setInputText] = useState("");
   const [selectedFiles, setSelectedFiles] = useState([]);
+  const [previewImage, setPreviewImage] = useState(null);
   const [isMenuOpen, setIsMenuOpen] = useState(false);
 
   const audioInputRef = useRef(null);
@@ -18,9 +19,17 @@ const App = () => {
   };
 
   const handleFileUpload = (files) => {
-    // Convert FileList to an array and update the state
     const newFiles = Array.from(files);
     setSelectedFiles((prevFiles) => [...prevFiles, ...newFiles]);
+
+    const imageFile = newFiles.find(file => file.type.startsWith("image/"));
+    if (imageFile) {
+      const reader = new FileReader();
+      reader.onloadend = () => {
+        setPreviewImage(reader.result);
+      };
+      reader.readAsDataURL(imageFile);
+    }
   };
 
   const handleSend = async () => {
@@ -53,6 +62,7 @@ const App = () => {
 
       setInputText("");
       setSelectedFiles([]);
+      setPreviewImage(null); // Clear the preview image
     }
   };
 
@@ -147,16 +157,31 @@ const App = () => {
       </div>
 
       <div className="p-5 bg-zinc-800 bg-opacity-90 flex items-center relative">
-        <div className="relative w-full">
-          <div className="py-0.5 px-0.5 rounded-3xl bg-gradient-to-r from-pink-900 via-orange-500 to-white">
-            <textarea
-              value={inputText}
-              onChange={handleInputChange}
-              onKeyDown={handleKeyDown}
-              placeholder="Enter your message"
-              className="w-full h-16 p-5 px-9 pr-20 rounded-3xl bg-neutral-700 text-white placeholder-white resize-none focus:outline-none"
-            />
-          </div>
+        <div className="relative flex items-center">
+          <textarea
+            value={inputText}
+            onChange={handleInputChange}
+            onKeyDown={handleKeyDown}
+            placeholder="Enter your message"
+            className={`w-[90vw] h-16 p-5 ml-[50px] rounded-3xl bg-neutral-700 text-white placeholder-white resize-none focus:outline-none ${previewImage ? 'pr-24' : ''}`}
+          />
+          
+          {previewImage && (
+            <div className="absolute right-24 top-1/2 transform -translate-y-1/2 bg-gray-700 rounded border border-gray-600">
+              <img
+                src={previewImage}
+                alt="Preview"
+                className="w-auto h-16 object-cover rounded"
+              />
+              <button
+                onClick={() => setPreviewImage(null)}
+                className="absolute top-0 right-0 p-1 bg-red-500 text-white rounded-full"
+              >
+                ✖️
+              </button>
+            </div>
+          )}
+
           <button
             onClick={toggleMenu}
             className="absolute inset-y-0 right-16 flex items-center pr-3 text-neutral-400 hover:text-white focus:outline-none"
