@@ -8,4 +8,5 @@ __pycache__/
 *.pyc
 
 # Ignore local environment
-gemini_env/
+llm_env/
+uploads/
