@@ -66,7 +66,7 @@ const App = () => {
         formData.append("message", inputText);
 
         if (selectedFiles.length > 0) {
-          selectedFiles.forEach((file, index) => formData.append(`files[${index}]`, file));
+          selectedFiles.forEach((file) => formData.append("files", file));
         }
 
         const response = await fetch("http://127.0.0.1:5000/api/chat", {
