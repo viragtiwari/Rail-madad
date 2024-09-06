@@ -1,6 +1,5 @@
 from flask import Flask, jsonify, request
 from flask_cors import CORS
-from werkzeug.utils import secure_filename
 import os
 
 from chat import send
@@ -15,11 +14,6 @@ os.makedirs(UPLOAD_FOLDER, exist_ok=True)
 
 @app.route('/api/chat', methods=['POST'])
 def chat():
-    if request.form.get('message'):
-        user_message = request.form.get('message')
-        bot_response = send(user_message)
-        return jsonify({"response": bot_response})
-
     if 'files' in request.files:
         files = request.files.getlist('files')
         bot_responses = ""
@@ -32,6 +26,12 @@ def chat():
             bot_responses += bot_response + "\n\n"
         
         return jsonify({"response": bot_responses})
+    
+    if request.form.get('message'):
+        user_message = request.form.get('message')
+        bot_response = send(user_message)
+        return jsonify({"response": bot_response})
+
         
 
 
