@@ -1,8 +1,10 @@
 import React, { useState, useRef } from "react";
 import { PaperClipIcon } from "@heroicons/react/outline";
-import { ArrowRightIcon } from "@heroicons/react/solid";
+import { ArrowRightIcon, CheckCircleIcon } from "@heroicons/react/solid";
 import { TypeAnimation } from "react-type-animation";
 import cross from "../src/assets/Images/delete.png";
+import { ThreeDots} from "react-loader-spinner";
+import {  XCircleIcon } from "@heroicons/react/solid";
 
 const App = () => {
   const [currentChat, setCurrentChat] = useState([]);
@@ -10,13 +12,56 @@ const App = () => {
   const [selectedFiles, setSelectedFiles] = useState([]);
   const [previewImages, setPreviewImages] = useState([]);
   const [isMenuOpen, setIsMenuOpen] = useState(false);
-
+  const [verified, setVerified] = useState(false);
+  const [pnr, setPnr] = useState("");
+  const [loading, setLoading] = useState(false);
+  const[error, setError] = useState(false); 
   const audioInputRef = useRef(null);
   const videoInputRef = useRef(null);
   const photoInputRef = useRef(null);
 
   const handleInputChange = (e) => {
     setInputText(e.target.value);
+  };
+
+  const handlePNRChange = (e) => {
+    const newPnr = e.target.value;
+    setPnr(newPnr);
+    
+  };
+
+  const checkPNR = async (pnr) => {
+    setLoading(true); 
+    setError(false); 
+    const url = `https://irctc1.p.rapidapi.com/api/v3/getPNRStatus?pnrNumber=${pnr}`;
+    const options = {
+      method: 'GET',
+      headers: {
+        'x-rapidapi-key': String(import.meta.env.VITE_RAPIDAPI_KEY),
+        'x-rapidapi-host': String(import.meta.env.VITE_RAPIDAPI_URL)
+      }
+     
+    };
+    
+    try {
+      const response = await fetch(url, options);
+      const result = await response.json();
+     
+      if (result.status === true) {
+        setTimeout(() => {
+          setVerified(true);
+          setLoading(false);
+        }, 1000); 
+      } 
+      else {
+        setLoading(false);
+        setError(true); 
+      }
+    } catch (error) {
+      console.error(error);
+      setLoading(false); 
+      setError(true); 
+    }
   };
 
   const handleFileUpload = (files) => {
@@ -40,7 +85,6 @@ const App = () => {
       });
     }
 
-   
     if (photoInputRef.current) photoInputRef.current.value = "";
     if (videoInputRef.current) videoInputRef.current.value = "";
     if (audioInputRef.current) audioInputRef.current.value = "";
@@ -56,10 +100,9 @@ const App = () => {
 
       setCurrentChat((prevChat) => [...prevChat, newEntry]);
 
-    
       setInputText("");
       setSelectedFiles([]);
-      setPreviewImages([]); 
+      setPreviewImages([]);
 
       try {
         const formData = new FormData();
@@ -122,6 +165,45 @@ const App = () => {
         break;
     }
   };
+
+  if (!verified) {
+    return (
+      <div className="w-full h-screen bg-zinc-800 flex flex-col justify-center items-center">
+        <TypeAnimation
+          sequence={["Hello, Welcome to RailMadad!", 2000]}
+          wrapper="h1"
+          cursor={true}
+          className="text-white text-5xl mb-40"
+        />
+        <div className="w-3/5 h-2/4 bg-zinc-600 rounded-2xl flex flex-col justify-center items-center">
+          <h1 className="text-white text-center text-4xl">Please enter your PNR to continue:</h1>
+          <input
+            placeholder="PNR"
+            type="text"
+            value={pnr}
+            onChange={handlePNRChange}
+            className="w-3/5 text-center border-none px-4 h-10 text-2xl rounded-full mt-8"
+          />
+          <button
+            onClick={() => checkPNR(pnr)}
+            className="w-32 h-10 bg-orange-500 hover:bg-orange-400 active:bg-orange-600 transition-all text-center rounded-3xl text-white mt-14"
+          >
+            SUBMIT
+          </button>
+          {loading && <ThreeDots type="ThreeDots" color="#00BFFF" height={80} width={80} />}
+          {verified && <CheckCircleIcon className="w-8 h-8 text-green-500 mt-10" />}
+          
+          {error && (
+            <div className="flex w-full justify-center">
+              <h1 className="text-white w-[240px] text-3xl text-center mt-[40px]">Sorry wrong PNR</h1>
+              <XCircleIcon className=" text-red-500 w-10 h-10 mt-10 " />
+              
+            </div>
+          )}
+        </div>
+      </div>
+    );
+  }
 
   return (
     <div className="flex flex-col overflow-x-hidden h-screen font-sans bg-zinc-900 text-white relative">
@@ -285,6 +367,7 @@ const App = () => {
             <ArrowRightIcon className="w-6 h-6" />
           </button>
         </div>
+      
       </div>
     </div>
   );
