@@ -6,7 +6,7 @@ function App() {
       PNR: '6863189953',
       trainno: '12875',
       category: 'RPF',
-      urgency: 'high',
+      urgency: 'High',
       status: 'pending',
       description: 'This is a dummy description. The customer\'s seat has been occupied by a person in blue chanting "bheem bheem bheem," which sounded as if he was Travis Scott playing a fiend.',
       media: 'https://images.pexels.com/photos/258347/pexels-photo-258347.jpeg?auto=compress&cs=tinysrgb&w=600', // Example image with a mobile aspect ratio
@@ -116,7 +116,7 @@ function App() {
   return (
     <div className="container mx-auto px-4 my-3">
       <div className="flex justify-between items-center mb-4">
-        <h1 className="text-2xl font-bold my-4">Customer List</h1>
+        <h1 className="text-4xl font-semibold italic underline my-4">COMPLAINTS</h1>
         <div className="flex items-center">
           <div className="relative mx-4">
             <input
@@ -235,8 +235,11 @@ function App() {
           </thead>
           <tbody>
             {(activeTab === 'active' ? searchedCustomers : resolvedCustomers).map((customer, index) => (
-              <tr key={index} className="border-b border-gray-200 hover:bg-gray-100">
-                <td className="py-3 px-6 text-center">{customer.PNR}</td>
+              <tr
+                key={index}
+                className={`border-b border-gray-200 hover:bg-gray-100 transition-all ${(customer.urgency === 'High' || customer.urgency === 'Very high') && activeTab === "active" ? 'bg-red-200' : ''}`}
+              >
+              <td className="py-3 px-6 text-center">{customer.PNR}</td>
                 <td className="py-3 px-6 text-center">{customer.trainno}</td>
                 <td className="py-3 px-6 text-center">{customer.category}</td>
                 <td className="py-3 mx-4  text-center">{customer.urgency}</td>
@@ -386,11 +389,11 @@ function App() {
                 onChange={handleCreateChange}
                 className="border border-gray-300 px-4 py-2 rounded-md w-full"
               >
-                <option value="very high">Very High</option>
-                <option value="high">High</option>
-                <option value="medium">Medium</option>
-                <option value="low">Low</option>
-                <option value="minimal">Minimal</option>
+                <option value="Very High">Very High</option>
+                <option value="High">High</option>
+                <option value="Medium">Medium</option>
+                <option value="Low">Low</option>
+                <option value="Minimal">Minimal</option>
               </select>
             </div>
             <div className="mb-4">
