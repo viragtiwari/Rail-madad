@@ -24,8 +24,8 @@ function Login() {
 
   return (
     <div className="flex items-center justify-center min-h-screen bg-gray-100">
-      <div className="bg-white p-8 rounded-lg shadow-md w-80">
-        <h1 className="text-2xl font-bold mb-6 text-gray-800">Login</h1>
+      <div className="bg-white p-8 rounded-lg shadow-md w-96 h-96">
+        <h1 className="text-4xl text-center font-medium  mb-6 text-gray-800">Login</h1>
         <form onSubmit={handleLogin}>
           <div className="mb-4">
             <label className="block text-gray-700 text-sm font-semibold mb-2">Username</label>
@@ -52,7 +52,7 @@ function Login() {
           {error && <p className="text-red-500 text-sm mb-4">{error}</p>}
           <button
             type="submit"
-            className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded w-full"
+            className="bg-blue-500 hover:bg-blue-700 transition text-white font-bold py-2 px-4 rounded w-full mt-6"
           >
             Login
           </button>
