@@ -3,8 +3,8 @@ import { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 
 const dummyCredentials = {
-  username: 'mayank',
-  password: '123',
+  username: 'admin',
+  password: '12345678',
 };
 
 function Login() {

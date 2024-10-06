@@ -1,15 +1,16 @@
 import { useState } from 'react';
+import testImage from '../assets/test_image.png';
 
 function App() {
   const [customers, setCustomers] = useState([
     {
-      PNR: '6863189953',
+      PNR: '12345678',
       trainno: '12875',
       category: 'RPF',
       urgency: 'high',
       status: 'pending',
-      description: 'This is a dummy description. The customer\'s seat has been occupied by a person in blue chanting "bheem bheem bheem," which sounded as if he was Travis Scott playing a fiend.',
-      media: 'https://images.pexels.com/photos/258347/pexels-photo-258347.jpeg?auto=compress&cs=tinysrgb&w=600', // Example image with a mobile aspect ratio
+      description: 'An unknown man is occupying the assigned seat of complainant and refusing to vacate it despite being asked. There are no railway staff members nearby to assist with the situation.',
+      media: testImage, // Example image with a mobile aspect ratio
     },
     // Add more customer data as needed
   ]);
