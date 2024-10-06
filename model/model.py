@@ -1,9 +1,8 @@
-import os
 import base64
 import anthropic
 import imghdr
 
-from model.prompts import CHAT_PROMPT, ROUTE_PROMPT, IMAGE_PROMPT
+from model.prompts import *
 import utils
 
 class Model:
