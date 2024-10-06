@@ -2,8 +2,12 @@ from flask import Flask, jsonify, request
 from flask_cors import CORS
 import os
 
-from chat import send
-from model.model import send_image_request
+from model.model import Model, TestModel
+
+if os.getenv("TESTING") == "true":
+    model = TestModel()
+else:
+    model = Model(os.getenv("CLAUDE_API_KEY"))
 
 app = Flask(__name__)
 
@@ -22,14 +26,21 @@ def chat():
             file_path = os.path.join(UPLOAD_FOLDER, file.filename)
             file.save(file_path)
 
-            bot_response = send_image_request(file_path)
+            bot_response = model.analyse_image(file_path)
             bot_responses += bot_response + "\n\n"
         
         return jsonify({"response": bot_responses})
     
     if request.form.get('message'):
         user_message = request.form.get('message')
-        bot_response = send(user_message)
+        
+        bot_response = model.chat(user_message)
+        
+        if bot_response == "Your complaint has been registered successfully.":
+            summary = model.chat("Summary")
+            model.route(summary)
+        
+        
         return jsonify({"response": bot_response})
 
         

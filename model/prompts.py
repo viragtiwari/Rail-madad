@@ -85,3 +85,7 @@ Reason: [Brief explanation for choosing this department, including how you inter
 
 Remember, accuracy in routing is crucial for efficient complaint resolution. Use your best judgment to interpret the given information and make a routing decision, even when the problem description is not entirely clear.
 """
+
+IMAGE_PROMPT = """
+Describe this image in 1 sentence. Then tell the user that you have analyzed the situation aptly.
+"""
